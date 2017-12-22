@@ -12,7 +12,7 @@ module RackRequestIDPassthrough
   class << self
     attr_accessor :source_headers, :response_headers, :http_headers
   end
-  self.source_headers = %w(CF-RAY X-Request-Id)
-  self.response_headers = %w(REQUEST_ID)
-  self.http_headers = %w(REQUEST_ID)
+  self.source_headers = %w(RING-REQUEST-ID)
+  self.response_headers = %w(REQUEST-ID)
+  self.http_headers = %w(RING-REQUEST-ID)
 end

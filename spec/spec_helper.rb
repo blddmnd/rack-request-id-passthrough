@@ -20,3 +20,7 @@ WebMock.disable_net_connect!(allow: 'codeclimate.com')
 
 require 'rack/mock'
 require 'rack/request-id-passthrough'
+
+RackRequestIDPassthrough.source_headers   = %w(CF-RAY X-Request-Id)
+RackRequestIDPassthrough.response_headers = %w(REQUEST_ID)
+RackRequestIDPassthrough.http_headers     = %w(REQUEST_ID)

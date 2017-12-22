@@ -51,9 +51,9 @@ Create an initializer file:
 ```ruby
 # ./config/initializers/rack-request-id-passthrough.rb
 
-RackRequestIDPassthrough.source_headers = %w(HTTP_FUNKY_TOWN HTTP_LESS_IMPORTANT) # List of source headers to look for request ids in
+RackRequestIDPassthrough.source_headers = %w(RING-REQUEST-ID) # List of source headers to look for request ids in
 RackRequestIDPassthrough.response_headers = %w(OUTGOING) # Controls the response headers sent back to the browser
-RackRequestIDPassthrough.http_headers = %w(OUTGOING_CALL) # Name of http headers that will be appended to all outgoing http calls
+RackRequestIDPassthrough.http_headers = %w(RING-REQUEST-ID) # Name of http headers that will be appended to all outgoing http calls
 ```
 
 ```ruby
