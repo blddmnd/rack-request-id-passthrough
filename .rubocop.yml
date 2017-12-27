@@ -1,4 +1,4 @@
-#Rubocop config to keep in line with our changes to the style guide
+# Rubocop config to keep in line with our changes to the style guide
 Encoding:
   Enabled: false
 
