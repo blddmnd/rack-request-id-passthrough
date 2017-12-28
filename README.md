@@ -36,6 +36,7 @@ end
 ```
 
 #### Rails
+By default, middleware will be added automatically, but if you want you can disable `rails_initialization` configuration and add middleware by yourself.
 
 ```ruby
 # ./config/application.rb
@@ -56,6 +57,12 @@ If you want to change default configuration you use configuration block:
 # ./config/initializers/rack-request-id-passthrough.rb
 
 RackRequestIDPassthrough.configure do |config|
+  # Insert rails middleware automatically
+  config.rails_initialization   = true
+
+  # Insert sidekiq middleware automatically
+  config.sidekiq_initialization = true
+
   # List of source headers to look for request ids in
   config.source_headers   = %w(RING-REQUEST-ID)
 

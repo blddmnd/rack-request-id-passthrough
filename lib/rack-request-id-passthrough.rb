@@ -13,3 +13,6 @@ module RackRequestIDPassthrough
     end
   end
 end
+
+require "rack-request-id-passthrough/rails" if defined? Rails::Railtie
+require "rack-request-id-passthrough/sidekiq" if defined? Sidekiq
