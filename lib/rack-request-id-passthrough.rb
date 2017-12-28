@@ -1,5 +1,5 @@
 require 'rack-request-id-passthrough/configuration'
-require 'rack/request-id-passthrough'
+require 'rack-request-id-passthrough/middleware'
 
 module RackRequestIDPassthrough
   class << self

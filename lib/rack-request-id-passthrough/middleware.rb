@@ -1,8 +1,8 @@
 require 'securerandom'
 require 'net/http'
 
-module Rack
-  class RequestIDPassthrough
+module RackRequestIDPassthrough
+  class Middleware
     def initialize(app)
       @app = app
       @headers = RackRequestIDPassthrough.configuration.source_headers

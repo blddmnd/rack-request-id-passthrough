@@ -3,9 +3,9 @@ require 'pry'
 require 'net/http'
 require 'uri'
 
-describe 'Rack::RequestIDPassthrough' do
+describe 'RackRequestIDPassthrough::Middleware' do
   let(:app)     { ->(env) { [200, {}, [env.to_yaml]] } }
-  let(:stack)   { Rack::RequestIDPassthrough.new app }
+  let(:stack)   { RackRequestIDPassthrough::Middleware.new app }
   let(:request) { Rack::MockRequest.new stack }
 
   it 'should generate random request IDs' do
@@ -57,7 +57,7 @@ end
 
 describe 'Net::HTTPHeader' do
   let(:app)     { ->(env) { [200, {}, [env.to_yaml]] } }
-  let(:stack)   { Rack::RequestIDPassthrough.new app }
+  let(:stack)   { RackRequestIDPassthrough::Middleware.new app }
   let(:request) { Rack::MockRequest.new stack }
 
   context 'with http_headers configuration' do
