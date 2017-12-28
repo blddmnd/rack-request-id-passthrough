@@ -51,7 +51,7 @@ module RackRequestIDPassthrough
     end
 
     def need_to_patch_headers?
-      !(RackRequestIDPassthrough.configuration.http_headers.nil? || RackRequestIDPassthrough.configuration.http_headers.empty?)
+      RackRequestIDPassthrough.configuration.http_headers.any?
     end
   end
 end
