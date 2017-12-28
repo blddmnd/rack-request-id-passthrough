@@ -8,9 +8,9 @@ module RackRequestIDPassthrough
 
     def insert_middleware
       if defined? Rack::Runtime
-        app.middleware.insert_after Rack::Runtime, Rack::RequestIDPassthrough
+        app.middleware.insert_after Rack::Runtime, RackRequestIDPassthrough::Middleware
       else
-        app.middleware.use Rack::RequestIDPassthrough
+        app.middleware.use RackRequestIDPassthrough::Middleware
       end
     end
 
