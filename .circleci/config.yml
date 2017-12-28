@@ -1,0 +1,35 @@
+version: 2
+jobs:
+  rspec:
+    parallelism: 1
+    working_directory: ~/rack-request-id-passthrough
+    docker:
+      - image: doorbot/ruby-build:2.3
+        environment:
+          BUNDLE_JOBS: 3
+          BUNDLE_RETRY: 3
+
+    steps:
+      - checkout
+
+      - run:
+          name: Install dependencies (bundle)
+          command: |
+            bundle check || bundle install
+            mkdir /tmp/test-results
+            mkdir /tmp/test-artifacts
+
+      - run:
+          name: Run RSpec
+          command: |
+            bundle exec rspec --profile 10 \
+                              --format RspecJunitFormatter \
+                              --out test_results/rspec.xml \
+                              --format progress \
+                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+
+      - type: store_test_results
+        path: /tmp/test-results
+
+      - type: store_artifacts
+        path: /tmp/test-artifacts
