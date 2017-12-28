@@ -75,7 +75,7 @@ describe 'Net::HTTPHeader' do
 
   context 'without http_headers configuration' do
     around do |example|
-      RackRequestIDPassthrough.configuration.http_headers = nil
+      RackRequestIDPassthrough.configuration.http_headers = []
       example.run
       RackRequestIDPassthrough.configuration.http_headers = %w(RING-REQUEST-ID)
     end
@@ -92,6 +92,9 @@ end
 
 describe 'RackRequestIDPassthrough::Configuration' do
   it 'returns default params' do
+    expect(RackRequestIDPassthrough.configuration.rails_initialization).to   be_truthy
+    expect(RackRequestIDPassthrough.configuration.sidekiq_initialization).to be_truthy
+
     expect(RackRequestIDPassthrough.configuration.source_headers).to   eq(%w(RING-REQUEST-ID))
     expect(RackRequestIDPassthrough.configuration.response_headers).to eq(%w(RING-REQUEST-ID))
     expect(RackRequestIDPassthrough.configuration.http_headers).to     eq(%w(RING-REQUEST-ID))
@@ -109,7 +112,7 @@ describe 'RackRequestIDPassthrough::Configuration' do
   end
 
   it 'can be configured with setters' do
-    RackRequestIDPassthrough.configuration.source_headers = nil
-    expect(RackRequestIDPassthrough.configuration.source_headers).to be_nil
+    RackRequestIDPassthrough.configuration.source_headers = []
+    expect(RackRequestIDPassthrough.configuration.source_headers).to eq([])
   end
 end
