@@ -1,4 +1,4 @@
-# Rack::RequestIDPassthrough
+# RackRequestIDPassthrough::Middleware
 
 Rack middleware which will take incoming headers (such as request id) and ensure that they are passed along to outgoing http requests.
 This can be used to track a request throughout your architecture by ensuring that all networks calls will recieve the same request id as the request originator.  An example of such an envrionment would be as follows:
@@ -31,7 +31,7 @@ gem install rack-request-id-passthrough
 # config.ru
 
 class MyApp < Sinatra::Base
-  use Rack::RequestIDPassthrough
+  use RackRequestIDPassthrough::Middleware
 end
 ```
 
@@ -45,7 +45,7 @@ module MyApp
   class Application < Rails::Application
     # ...
     # Warning! Make sure that you insert this middleware early so that you can capture all relevant network calls
-    config.middleware.insert_after Rack::Runtime, Rack::RequestIDPassthrough
+    config.middleware.insert_after Rack::Runtime, RackRequestIDPassthrough::Middleware
   end
 end
 ```
