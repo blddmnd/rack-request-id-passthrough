@@ -11,6 +11,10 @@ module RackRequestIDPassthrough
       yield(configuration)
       configuration
     end
+
+    def reset!
+      @configuration = Configuration.new
+    end
   end
 end
 

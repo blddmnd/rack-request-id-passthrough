@@ -44,8 +44,6 @@ describe 'RackRequestIDPassthrough::Middleware' do
 
     response = request.get '/', 'RING-REQUEST-ID' => 'firstheader', 'REQUEST-ID' => 'secondheader'
     expect(response.headers['RING-REQUEST-ID']).to eq('firstheader')
-
-    RackRequestIDPassthrough.configuration.http_headers = %w(RING-REQUEST-ID)
   end
 
   it 'should set a global constant containing the request id' do
@@ -74,12 +72,6 @@ describe 'Net::HTTPHeader' do
   end
 
   context 'without http_headers configuration' do
-    around do |example|
-      RackRequestIDPassthrough.configuration.http_headers = []
-      example.run
-      RackRequestIDPassthrough.configuration.http_headers = %w(RING-REQUEST-ID)
-    end
-
     it 'should not append request id to outgoing headers' do
       request.get('/')
       stub = stub_request(:get, 'http://example.com/')
@@ -95,24 +87,43 @@ describe 'RackRequestIDPassthrough::Configuration' do
     expect(RackRequestIDPassthrough.configuration.rails_initialization).to   be_truthy
     expect(RackRequestIDPassthrough.configuration.sidekiq_initialization).to be_truthy
 
+    expect(RackRequestIDPassthrough.configuration.http_headers).to     eq(%w(RING-REQUEST-ID))
     expect(RackRequestIDPassthrough.configuration.source_headers).to   eq(%w(RING-REQUEST-ID))
     expect(RackRequestIDPassthrough.configuration.response_headers).to eq(%w(RING-REQUEST-ID))
-    expect(RackRequestIDPassthrough.configuration.http_headers).to     eq(%w(RING-REQUEST-ID))
   end
 
   it 'can be configured with block' do
     RackRequestIDPassthrough.configure do |config|
-      config.source_headers = %w(ONE TWO)
-      config.http_headers   = []
+      config.source_headers         = %w(ONE TWO)
+      config.http_headers           = []
+      config.response_headers       = nil
+      config.rails_initialization   = nil
+      config.sidekiq_initialization = 'true'
     end
 
     expect(RackRequestIDPassthrough.configuration.source_headers).to   eq(%w(ONE TWO))
-    expect(RackRequestIDPassthrough.configuration.response_headers).to eq(%w(RING-REQUEST-ID))
+    expect(RackRequestIDPassthrough.configuration.response_headers).to eq([])
     expect(RackRequestIDPassthrough.configuration.http_headers).to     eq([])
+    expect(RackRequestIDPassthrough.configuration.rails_initialization).to   be_falsey
+    expect(RackRequestIDPassthrough.configuration.sidekiq_initialization).to be_truthy
   end
 
   it 'can be configured with setters' do
     RackRequestIDPassthrough.configuration.source_headers = []
     expect(RackRequestIDPassthrough.configuration.source_headers).to eq([])
+  end
+end
+
+describe 'RackRequestIDPassthrough.reset!' do
+  it 'should reset configuration' do
+    RackRequestIDPassthrough.configure do |config|
+      config.source_headers = %w(ONE TWO)
+      config.http_headers   = []
+    end
+
+    RackRequestIDPassthrough.reset!
+
+    expect(RackRequestIDPassthrough.configuration.source_headers).to eq(%w(RING-REQUEST-ID))
+    expect(RackRequestIDPassthrough.configuration.http_headers).to   eq(%w(RING-REQUEST-ID))
   end
 end
