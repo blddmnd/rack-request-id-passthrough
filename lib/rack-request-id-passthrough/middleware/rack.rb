@@ -39,8 +39,8 @@ module RackRequestIDPassthrough
       end
 
       def same_header?(header_name, env_key)
-        h = header_name.upcase.gsub('_','-').gsub('HTTP-', '')
-        k = env_key.upcase.gsub('_','-').gsub('HTTP-', '')
+        h = header_name.upcase.tr('_', '-').tr('HTTP-', '')
+        k = env_key.upcase.tr('_', '-').tr('HTTP-', '')
         h == k
       end
 
