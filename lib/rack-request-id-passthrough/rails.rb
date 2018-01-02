@@ -1,21 +1,17 @@
 module RackRequestIDPassthrough
   class Railtie < Rails::Railtie
-    initializer "request_passthrough.configure_rails_initialization" do
-      if use_request_passthrough?
+    initializer 'request_passthrough.configure_rails_initialization' do
+      if RackRequestIDPassthrough.configuration.rails_initialization
         insert_middleware
       end
     end
 
     def insert_middleware
       if defined? Rack::Runtime
-        app.middleware.insert_after Rack::Runtime, RackRequestIDPassthrough::Middleware
+        app.middleware.insert_after Rack::Runtime, RackRequestIDPassthrough::Middleware::Rack
       else
-        app.middleware.use RackRequestIDPassthrough::Middleware
+        app.middleware.use RackRequestIDPassthrough::Middleware::Rack
       end
-    end
-
-    def use_request_passthrough?
-      !!RackRequestIDPassthrough.configuration.rails_initialization
     end
 
     def app

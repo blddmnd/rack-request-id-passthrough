@@ -1,21 +1,13 @@
-module RackRequestIDPassthrough
-  class SidekiqMiddleware
-    def call(worker_class, job, queue, redis_pool)
-      if use_request_passthrough?
-        job['capi_request_id'] = Thread.current[:request_id_passthrough]
-      end
-
-      yield
-    end
-
-    def use_request_passthrough?
-      !!RackRequestIDPassthrough.configuration.sidekiq_initialization
+if RackRequestIDPassthrough.configuration.sidekiq_initialization
+  Sidekiq.configure_client do |config|
+    config.client_middleware do |chain|
+      chain.add RackRequestIDPassthrough::Middleware::Sidekiq::Client
     end
   end
-end
 
-Sidekiq.configure_client do |config|
-  config.client_middleware do |chain|
-    chain.add RackRequestIDPassthrough::SidekiqMiddleware
+  Sidekiq.configure_server do |config|
+    config.server_middleware do |chain|
+      chain.add RackRequestIDPassthrough::Middleware::Sidekiq::Server
+    end
   end
 end
