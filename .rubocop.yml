@@ -14,3 +14,19 @@ Documentation:
 Metrics/BlockLength:
   Exclude:
     - "**/*_spec.rb"
+
+Metrics/MethodLength:
+  Max: 20
+
+Lint/UnusedMethodArgument:
+  Enabled: false
+
+Naming/FileName:
+  Exclude:
+    - "lib/rack-request-id-passthrough.rb"
+
+Style/DoubleNegation:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
