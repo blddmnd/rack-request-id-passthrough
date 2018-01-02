@@ -77,22 +77,22 @@ If you want to change default configuration you use configuration block:
 
 RackRequestIDPassthrough.configure do |config|
   # Insert rails middleware automatically
-  config.rails_initialization   = true
+  config.rails_initialization   = true # default
 
   # Insert sidekiq middleware automatically
-  config.sidekiq_initialization = true
+  config.sidekiq_initialization = true # default
 
   # The key into the sidekiq hash where we will store request ID
-  config.sidekiq_request_key = 'ring_request_id'
+  config.sidekiq_request_key = 'ring_request_id' # default
 
   # An array of headers to look for incoming request id values
-  config.source_headers   = %w[RING-REQUEST-ID]
+  config.source_headers   = %w[RING-REQUEST-ID] # default
 
   # An array of headers which will be appended to all responses
-  config.response_headers = %w[RING-REQUEST-ID]
+  config.response_headers = %w[RING-REQUEST-ID] # default
 
   # An array of http headers that will be appended to all outgoing http calls, if you don't want to append then set this to []
-  config.http_headers     = %w[RING-REQUEST-ID]
+  config.http_headers     = %w[RING-REQUEST-ID] # default
 end
 ```
 
