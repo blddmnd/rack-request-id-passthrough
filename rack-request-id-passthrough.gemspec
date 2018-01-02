@@ -13,12 +13,13 @@ Gem::Specification.new do |s|
   s.files         = `git ls-files`.split("\n")
   s.require_paths = ['lib']
 
-  s.add_development_dependency 'rack'
-  s.add_development_dependency 'rspec'
-  s.add_development_dependency 'rake'
   s.add_development_dependency 'pry'
-  s.add_development_dependency 'webmock'
-  s.add_development_dependency 'simplecov'
-  s.add_development_dependency 'rubocop'
+  s.add_development_dependency 'rack'
+  s.add_development_dependency 'rake'
+  s.add_development_dependency 'rspec'
   s.add_development_dependency 'rspec_junit_formatter'
+  s.add_development_dependency 'rubocop'
+  s.add_development_dependency 'sidekiq'
+  s.add_development_dependency 'simplecov'
+  s.add_development_dependency 'webmock'
 end
