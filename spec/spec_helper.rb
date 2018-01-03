@@ -16,6 +16,7 @@ RSpec.configure do |config|
   config.order = 'random'
 
   config.before do
+    WebMock.reset!
     Thread.current[:request_id_passthrough] = nil
     RackRequestIDPassthrough.reset!
   end

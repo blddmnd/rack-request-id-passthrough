@@ -22,7 +22,6 @@ describe 'RackRequestIDPassthrough::Middleware::Sidekiq::Client' do
   end
 end
 
-
 describe 'RackRequestIDPassthrough::Middleware::Sidekiq::Server' do
   describe '#call' do
     let(:middleware) { RackRequestIDPassthrough::Middleware::Sidekiq::Server.new }
